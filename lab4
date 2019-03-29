@@ -16,12 +16,12 @@ CONFIG_REGISTER = 0x21
 DISPLAY_SETUP = 0x81
 DISPLAY_ADDRESS = 0x03
 
-def configure_LED_clock(bus):
+def set_clock(bus):
    config_byte = CONFIG_REGISTER
    bus.write_byte(DEVICE_ADDRESS, config_byte)
 
 
-def configure_LED_display(bus):
+def turn_on_display(bus):
    config_byte2 = DISPLAY_SETUP
    bus.write_byte(DEVICE_ADDRESS, config_byte2)
 
@@ -30,7 +30,7 @@ def display_data(bus):
    bus.write_i2c_block_data(DEVICE_ADDRESS, DISPLAY_ADDRESS, config_byte3)
 
 
-configure_LED_clock(bus)
-configure_LED_display(bus) 
+set_clock(bus)
+turn_on_display(bus) 
 display_data(bus)
 
