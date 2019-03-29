@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 #
 # Josie Bunnell (josephinebunnell@bennington.edu ; Sky Leilani (skyleilani@bennington.edu)
@@ -15,7 +14,7 @@ bus = smbus.SMBus(1)
 DEVICE_ADDRESS = 0x70
 CONFIG_REGISTER = 0x21
 DISPLAY_SETUP = 0x81
-
+DISPLAY_ADDRESS = 0x03
 
 def configure_LED_clock(bus):
    config_byte = CONFIG_REGISTER
@@ -23,10 +22,15 @@ def configure_LED_clock(bus):
 
 
 def configure_LED_display(bus):
-   config_byte2 = DISPLAY_SETUP 
+   config_byte2 = DISPLAY_SETUP
    bus.write_byte(DEVICE_ADDRESS, config_byte2)
+
+def display_data(bus):
+   config_byte3 = [11111111]
+   bus.write_i2c_block_data(DEVICE_ADDRESS, DISPLAY_ADDRESS, config_byte3)
 
 
 configure_LED_clock(bus)
-
 configure_LED_display(bus) 
+display_data(bus)
+
