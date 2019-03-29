@@ -1,0 +1,32 @@
+
+#!/usr/bin/python3
+#
+# Josie Bunnell (josephinebunnell@bennington.edu ; Sky Leilani (skyleilani@bennington.edu)
+# 
+# 3.26.2019
+
+# import RPi.GPIO as GPIO
+# GPIO.setmode(GPIO.BOARD) 
+
+import smbus
+bus = smbus.SMBus(1)
+
+
+DEVICE_ADDRESS = 0x70
+CONFIG_REGISTER = 0x21
+DISPLAY_SETUP = 0x81
+
+
+def configure_LED_clock(bus):
+   config_byte = CONFIG_REGISTER
+   bus.write_byte(DEVICE_ADDRESS, config_byte)
+
+
+def configure_LED_display(bus):
+   config_byte2 = DISPLAY_SETUP 
+   bus.write_byte(DEVICE_ADDRESS, config_byte2)
+
+
+configure_LED_clock(bus)
+
+configure_LED_display(bus) 
