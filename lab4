@@ -16,7 +16,7 @@ bus = smbus.SMBus(1)
 DEVICE_ADDRESS = 0x70
 CONFIG_REGISTER = 0x21
 DISPLAY_SETUP = 0x81
-DISPLAY_ADDRESS = 0x0
+DISPLAY_ADDRESS = 0x0 .       #0x00 for 1st digit, 0x02 for 2nd digit, 0x04 for colon, 0x06 for 3rd digit, 0x08 for 4th digit
 
 def set_clock(bus):
    config_byte = CONFIG_REGISTER
@@ -27,9 +27,11 @@ def turn_on_display(bus):
    bus.write_byte(DEVICE_ADDRESS, config_byte2)
 
 def display_data(bus):
-   config_byte3 = [0b01111111]
+   config_byte3 = [0b01111111]         # 1 in front to turn on decimal, 0 in front for off decimal
    bus.write_i2c_block_data(DEVICE_ADDRESS, DISPLAY_ADDRESS, config_byte3)
    
 set_clock(bus)
 turn_on_display(bus)
 display_data(bus)
+
+
