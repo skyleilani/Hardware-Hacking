@@ -13,10 +13,14 @@ import smbus
 bus = smbus.SMBus(1)
 
 
-DEVICE_ADDRESS = 0x70
-CONFIG_REGISTER = 0x21
-DISPLAY_SETUP = 0x81
-DISPLAY_ADDRESS = 0x0 .       #0x00 for 1st digit, 0x02 for 2nd digit, 0x04 for colon, 0x06 for 3rd digit, 0x08 for 4th digit
+DEVICE_ADDRESS = 0x70   # system setup register - enables clock
+
+CONFIG_REGISTER = 0x21  # display data address pointer - allows loading of individual display data byte, or a series, 
+                        # into any location of the display sequence commences with the initialization of the address pointer 
+                        
+DISPLAY_SETUP = 0x81    # turns LED display ON and sets blinking frequency to {0,0}
+
+DISPLAY_ADDRESS = 0x0 .       # (IS THIS KEY DATA ADDR POINTER??) 0x00 for 1st digit, 0x02 for 2nd digit, 0x04 for colon, 0x06 for 3rd digit, 0x08 for 4th digit
 
 def set_clock(bus):
    config_byte = CONFIG_REGISTER
