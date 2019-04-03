@@ -282,53 +282,53 @@ def temp_to_display_3(list):
 
       if( list[3]  == 0 ):
          segment0 = [DIGIT_L['zero']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment0)
         
       elif (list[3] == 1 ):
          segment1 = [DIGIT_L['one']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment1)
         
 
       elif (list[3] == 2 ):
          segment2 = [DIGIT_L['two']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment2)
 
       elif (list[3] == 3 ):
          segment3 = [DIGIT_L['three']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment3)
 
       elif (list[3] == 4 ):
          segment4 = [DIGIT_L['four']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment4)
          
       elif (list[3]  == 5 ):
          segment5 = [DIGIT_L['five']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment5)
 
       elif (list[3] == 6 ):
          segment6 = [DIGIT_L['six']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment6)
 
       elif (list[3] == 7 ):
          segment7 = [DIGIT_L['seven']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment7)
          
       elif (list[3]  == 8 ):
          segment8 = [DIGIT_L['eight']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth'']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment8)
 
       elif (list[3] == 9 ):
          segment9 = [DIGIT_L['nine']]
-         ad_1 = DISPLAY_BYTES['third']
+         ad_1 = DISPLAY_BYTES['fourth']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment9)      
          
 configure_adc(bus)
