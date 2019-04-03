@@ -136,7 +136,7 @@ def temp_to_display_0(list):
          ad_1 = DISPLAY_BYTES['first']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment3)
 
-      elif (list[1] == 4 ):
+      elif (list[0] == 4 ):
          segment4 = [DIGIT_L['four']]
          ad_1 = DISPLAY_BYTES['first']
          bus.write_i2c_block_data(LED_DISP_ADDRESS, ad_1 , segment4)
