@@ -1,3 +1,6 @@
+#datasheet: https://cdn-shop.adafruit.com/datasheets/Si1145-46-47.pdf
+
+
 import smbus
 import time
 
