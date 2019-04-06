@@ -12,13 +12,13 @@ COMMAND_REGISTER = 0X18    # 'primary mailbox register into the internal sequenc
 HW_KEY_REGISTER = 0X07
 CHLIST = 0X01
 #UCOEF =
-PARAM_RD = 0x2E    # 'mailbox register for passing parameters from sequencer to host'
+#PARAM_RD = 0x2E    # 'mailbox register for passing parameters from sequencer to host'
 #PARAM_WR = 0x17    # 'mailbox register for passing parameters from host to sequencer'
 #ALS_FORCE = 0x06   # forces a single light sensor measurement
-
+RESPONSE_REGISTER = 0X20
 
 def initialization(bus):
-     write_parameter = [0x17]    # PARAM_WR in datasheet?.... 'mailbox register for p$
+     write_parameter = [0x17]    # PARAM_WR in datasheet?.... 'mailbox register for passing parameters from $
      bus.write_i2c_block_data(SENSOR_ADDRESS, HW_KEY_REGISTER, write_parameter)
 
 def write_to_command(bus):
@@ -29,6 +29,13 @@ def set_channel_list(bus):
      chlist_bytes = [0xF0]
      bus.write_i2c_block_data(SENSOR_ADDRESS, CHLIST, chlist_bytes)
 
+def get_reading(bus):
+     reading = bus.read_byte_data(SENSOR_ADDRESS, RESPONSE_REGISTER)
+     print(reading)
+     return reading
+
+
 initialization(bus)
-write_to_command(bus)
 set_channel_list(bus)
+write_to_command(bus)
+get_reading(bus)
