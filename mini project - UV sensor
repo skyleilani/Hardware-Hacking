@@ -1,5 +1,5 @@
 #datasheet: https://cdn-shop.adafruit.com/datasheets/Si1145-46-47.pdf
-
+----------------------------------------------------------------------
 
 import smbus
 import time
@@ -8,14 +8,27 @@ bus = smbus.SMBus(1) # connects to i2C channel 1 and GPIO i2C pins
 
 SENSOR_ADDRESS = 0x60 # The address of the i2c device in hex without the r/w bit
 
-COMMAND_REGISTER = 0X18
+COMMAND_REGISTER = 0X18    # 'primary mailbox register into the internal sequencer'
 HW_KEY_REGISTER = 0X07
-#CHLIST =
+CHLIST = 0X01
 #UCOEF =
+PARAM_RD = 0x2E    # 'mailbox register for passing parameters from sequencer to host'
+#PARAM_WR = 0x17    # 'mailbox register for passing parameters from host to sequencer'
+#ALS_FORCE = 0x06   # forces a single light sensor measurement
 
 
 def initialization(bus):
-     config_byte = [0x17]
-     bus.write_i2c_block_data(SENSOR_ADDRESS, HW_KEY_REGISTER, config_byte)
+     write_parameter = [0x17]    # PARAM_WR in datasheet?.... 'mailbox register for p$
+     bus.write_i2c_block_data(SENSOR_ADDRESS, HW_KEY_REGISTER, write_parameter)
+
+def write_to_command(bus):
+     als_force = [0x06]
+     bus.write_i2c_block_data(SENSOR_ADDRESS, COMMAND_REGISTER, als_force)
+
+def set_channel_list(bus):
+     chlist_bytes = [0xF0]
+     bus.write_i2c_block_data(SENSOR_ADDRESS, CHLIST, chlist_bytes)
 
 initialization(bus)
+write_to_command(bus)
+set_channel_list(bus)
