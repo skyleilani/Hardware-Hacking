@@ -8,34 +8,51 @@ bus = smbus.SMBus(1) # connects to i2C channel 1 and GPIO i2C pins
 
 SENSOR_ADDRESS = 0x60 # The address of the i2c device in hex without the r/w bit
 
-COMMAND_REGISTER = 0X18    # 'primary mailbox register into the internal sequencer'
+COMMAND_REGISTER = 0X18    # write commands to this register (see pg. 22 of data sheet)
 HW_KEY_REGISTER = 0X07
-CHLIST = 0X01
-#UCOEF =
-#PARAM_RD = 0x2E    # 'mailbox register for passing parameters from sequencer to host'
-#PARAM_WR = 0x17    # 'mailbox register for passing parameters from host to sequencer'
-#ALS_FORCE = 0x06   # forces a single light sensor measurement
-RESPONSE_REGISTER = 0X20
+PARAM_WR = 0x17    # 'mailbox register for passing parameters from host to sequencer'
+UV_INDEX = 0x2C     #aux_data0/uvindex0
+UCOEF0 = 0x13
+UCOEF1 = 0x14
+UCOEF2 = 0x15
+UCOEF3 = 0x16
+ALS_VIS_DATA = 0X22
+MEAS_RATE0 = 0x08
 
-def initialization(bus):
-     write_parameter = [0x17]    # PARAM_WR in datasheet?.... 'mailbox register for passing parameters from $
-     bus.write_i2c_block_data(SENSOR_ADDRESS, HW_KEY_REGISTER, write_parameter)
+def write_to_hwkey(bus):
+     bus.write_byte_data(SENSOR_ADDRESS, HW_KEY_REGISTER, 0x17)
 
-def write_to_command(bus):
-     als_force = [0x06]
-     bus.write_i2c_block_data(SENSOR_ADDRESS, COMMAND_REGISTER, als_force)
+def enable_UV_coeff(bus, register, number):
+     write_param = [number]
+     bus.write_byte_data(SENSOR_ADDRESS, register, number)
 
-def set_channel_list(bus):
-     chlist_bytes = [0xF0]
-     bus.write_i2c_block_data(SENSOR_ADDRESS, CHLIST, chlist_bytes)
+def enable_UV_sensor(bus):     #write chlist byte to write parameter
+     bus.write_byte_data(SENSOR_ADDRESS, PARAM_WR, 0xF0)
 
-def get_reading(bus):
-     reading = bus.read_byte_data(SENSOR_ADDRESS, RESPONSE_REGISTER)
-     print(reading)
-     return reading
+#def set_measure_rate(bus):
+     bus.write_byte_data(SENSOR_ADDRESS, MEAS_RATE0, 0xFF)
+     
+def auto_measure(bus):     #starts autonomous loop of measuring by writing ALS_AUTO 0x0E to command register
+     bus.write_byte_data(SENSOR_ADDRESS, COMMAND_REGISTER, 0xE)
+
+def get_UV_reading(bus):
+     raw_reading = bus.read_byte_data(SENSOR_ADDRESS, UV_INDEX)
+     print(raw_reading)
+     return raw_reading
+
+def get_vis_reading(bus):     #returns visible + IR light levels
+     raw_read_v = bus.read_byte_data(SENSOR_ADDRESS, ALS_VIS_DATA)
+     print(raw_read_v)
+     return raw_read_v
 
 
-initialization(bus)
-set_channel_list(bus)
-write_to_command(bus)
-get_reading(bus)
+write_to_hwkey(bus)
+enable_UV_coeff(bus, UCOEF0, 0x29)
+enable_UV_coeff(bus, UCOEF1, 0x89)
+enable_UV_coeff(bus, UCOEF2, 0x02)
+enable_UV_coeff(bus, UCOEF3, 0x00)
+enable_UV_sensor(bus)
+auto_measure(bus)
+
+get_UV_reading(bus)
+get_vis_reading(bus)
